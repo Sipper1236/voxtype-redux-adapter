@@ -1,0 +1,117 @@
+{
+  "model": "$MODELS_DIR/redux-packed.gguf",
+  "native_load_seconds": 0.4743393399985507,
+  "method": "Identical C API and default decoder as installed Voxtype; one warmup per fixture, five measured sequential runs; no thread override. Cold means fresh process with filesystem cache potentially warm.",
+  "warm": [
+    {
+      "file": "~/Projects/voxtype-photon/tests/fixtures/vad/speech_hello.wav",
+      "audio_seconds": 1.028375,
+      "seconds": [
+        0.8315388210030505,
+        0.6428442760079633,
+        0.934137787000509,
+        1.8555330900126137,
+        0.9939135399908992
+      ],
+      "median_seconds": 0.934137787000509,
+      "min_seconds": 0.6428442760079633,
+      "max_seconds": 1.8555330900126137,
+      "median_rtf": 0.9083629872376409,
+      "speedup": 1.1008814912648852,
+      "transcripts": [
+        "Hello World",
+        "Hello World",
+        "Hello World",
+        "Hello World",
+        "Hello World"
+      ]
+    },
+    {
+      "file": "~/Projects/voxtype-photon/tests/fixtures/vad/speech_long.wav",
+      "audio_seconds": 4.753,
+      "seconds": [
+        2.254001409004559,
+        3.4057404049963225,
+        3.933203690001392,
+        3.061037082996336,
+        3.7370146960020065
+      ],
+      "median_seconds": 3.4057404049963225,
+      "min_seconds": 2.254001409004559,
+      "max_seconds": 3.933203690001392,
+      "median_rtf": 0.7165454249939665,
+      "speedup": 1.3955849344909577,
+      "transcripts": [
+        "This is a longer test of voice activity detection with multiple words and framing.",
+        "This is a longer test of voice activity detection with multiple words and framing.",
+        "This is a longer test of voice activity detection with multiple words and framing.",
+        "This is a longer test of voice activity detection with multiple words and framing.",
+        "This is a longer test of voice activity detection with multiple words and framing."
+      ]
+    },
+    {
+      "file": "~/Projects/parakeet-cpp/tests/fixtures/speech.wav",
+      "audio_seconds": 7.435,
+      "seconds": [
+        5.183917204994941,
+        4.9105728959984845,
+        4.589773657004116,
+        4.6426762729970505,
+        4.702626422003959
+      ],
+      "median_seconds": 4.702626422003959,
+      "min_seconds": 4.589773657004116,
+      "max_seconds": 5.183917204994941,
+      "median_rtf": 0.6324985100207074,
+      "speedup": 1.5810313924174477,
+      "transcripts": [
+        "Well, I don't wish to see it any more, observed Phoebe, turning away her eyes. It is certainly very like the old portrait.",
+        "Well, I don't wish to see it any more, observed Phoebe, turning away her eyes. It is certainly very like the old portrait.",
+        "Well, I don't wish to see it any more, observed Phoebe, turning away her eyes. It is certainly very like the old portrait.",
+        "Well, I don't wish to see it any more, observed Phoebe, turning away her eyes. It is certainly very like the old portrait.",
+        "Well, I don't wish to see it any more, observed Phoebe, turning away her eyes. It is certainly very like the old portrait."
+      ]
+    },
+    {
+      "file": "~/Projects/parakeet-cpp/tests/fixtures/two_speakers.wav",
+      "audio_seconds": 23.605,
+      "seconds": [
+        13.026604191007209,
+        11.860935904987855,
+        12.840833094000118,
+        12.108845526003279,
+        12.339233519000118
+      ],
+      "median_seconds": 12.339233519000118,
+      "min_seconds": 11.860935904987855,
+      "max_seconds": 13.026604191007209,
+      "median_rtf": 0.5227381283202761,
+      "speedup": 1.9130037504884485,
+      "transcripts": [
+        "mister Quilter is the apostle of the middle classes, and we are glad to welcome his gospel. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes. It is certainly very like the old portrait. Nor is Mr. Quilter's manner less interesting than his matter. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes.",
+        "mister Quilter is the apostle of the middle classes, and we are glad to welcome his gospel. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes. It is certainly very like the old portrait. Nor is Mr. Quilter's manner less interesting than his matter. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes.",
+        "mister Quilter is the apostle of the middle classes, and we are glad to welcome his gospel. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes. It is certainly very like the old portrait. Nor is Mr. Quilter's manner less interesting than his matter. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes.",
+        "mister Quilter is the apostle of the middle classes, and we are glad to welcome his gospel. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes. It is certainly very like the old portrait. Nor is Mr. Quilter's manner less interesting than his matter. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes.",
+        "mister Quilter is the apostle of the middle classes, and we are glad to welcome his gospel. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes. It is certainly very like the old portrait. Nor is Mr. Quilter's manner less interesting than his matter. Well, I don't wish to see it anymore, observed Phoebe, turning away her eyes."
+      ]
+    }
+  ],
+  "cold_cli": [
+    {
+      "wall_seconds": 1.1363548130029812,
+      "stdout": "Loading audio file: \"~/Projects/voxtype-photon/tests/fixtures/vad/speech_hello.wav\"\nAudio format: 16000 Hz, 1 channel(s), Int\nProcessing 16454 samples (1.03s)...\n2026-10-18T17:55:07.069929Z  INFO Loading native Parakeet GGUF model from \"$MODELS_DIR/redux-packed.gguf\"\n2026-10-18T17:55:07.468927Z  INFO Native Parakeet GGUF model loaded in 0.40s\n2026-10-18T17:55:08.126945Z  INFO Parakeet Tdt transcription completed in 0.66s: \"Hello World\"\n\nHello World\n",
+      "stderr": ""
+    },
+    {
+      "wall_seconds": 1.3407451219973154,
+      "stdout": "Loading audio file: \"~/Projects/voxtype-photon/tests/fixtures/vad/speech_hello.wav\"\nAudio format: 16000 Hz, 1 channel(s), Int\nProcessing 16454 samples (1.03s)...\n2026-10-18T17:55:08.206361Z  INFO Loading native Parakeet GGUF model from \"$MODELS_DIR/redux-packed.gguf\"\n2026-10-18T17:55:08.570849Z  INFO Native Parakeet GGUF model loaded in 0.36s\n2026-10-18T17:55:09.467388Z  INFO Parakeet Tdt transcription completed in 0.90s: \"Hello World\"\n\nHello World\n",
+      "stderr": ""
+    },
+    {
+      "wall_seconds": 2.2235968390014023,
+      "stdout": "Loading audio file: \"~/Projects/voxtype-photon/tests/fixtures/vad/speech_hello.wav\"\nAudio format: 16000 Hz, 1 channel(s), Int\nProcessing 16454 samples (1.03s)...\n2026-10-18T17:55:09.546354Z  INFO Loading native Parakeet GGUF model from \"$MODELS_DIR/redux-packed.gguf\"\n2026-10-18T17:55:09.924210Z  INFO Native Parakeet GGUF model loaded in 0.38s\n2026-10-18T17:55:11.693127Z  INFO Parakeet Tdt transcription completed in 1.77s: \"Hello World\"\n\nHello World\n",
+      "stderr": ""
+    }
+  ],
+  "native_process_peak_rss_mib": 598.1875
+}

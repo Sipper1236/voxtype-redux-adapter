@@ -1,0 +1,4 @@
+[submodule "custom-voxtype"]
+	path = custom-voxtype
+	url = https://github.com/Sipper1236/voxtype-redux-native.git
+	branch = redux-cpp-native

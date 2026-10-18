@@ -1,0 +1,86 @@
+{
+  "name": "moonshine-base",
+  "cases": [
+    {
+      "ok": true,
+      "text": "The other voice snapped with a harsh urgency, clearly used to command.",
+      "wall_seconds": 0.45376786999986507,
+      "backend_seconds": 0.449774586,
+      "id": "clean-5s",
+      "reference": "THE OTHER VOICE SNAPPED WITH A HARSH URGENCY CLEARLY USED TO COMMAND",
+      "audio_seconds": 5.015,
+      "inference_seconds": 0.45376786999986507,
+      "word_errors": 0,
+      "reference_words": 12,
+      "wer": 0.0
+    },
+    {
+      "ok": true,
+      "text": "Having returned to the royal cavern, Calico first pounded the gong and then sat in the throne, wearing Ruggedo's discarded ruby crown, and holding in his hand the sceptre which Ruggedo had so often thrown at his head.",
+      "wall_seconds": 1.3796011389931664,
+      "backend_seconds": 1.369040046,
+      "id": "clean-15s",
+      "reference": "HAVING RETURNED TO THE ROYAL CAVERN KALIKO FIRST POUNDED THE GONG AND THEN SAT IN THE THRONE WEARING RUGGEDO'S DISCARDED RUBY CROWN AND HOLDING IN HIS HAND THE SCEPTRE WHICH RUGGEDO HAD SO OFTEN THROWN AT HIS HEAD",
+      "audio_seconds": 14.47,
+      "inference_seconds": 1.3796011389931664,
+      "word_errors": 1,
+      "reference_words": 38,
+      "wer": 0.02631578947368421
+    },
+    {
+      "ok": true,
+      "text": "Linel's pictures are a sort of up guards and atom paintings, and Mason's exquisite idols are as national as a jingo poem. Mr. Burke at Foster's Landscapes smile at one much in the same way that Mr. Carker used to flash his teeth. And Mr. John Collier gives his sitter a cheerful slap on the back before he says, like a shampooer in a Turkish bath, \"Next man,",
+      "wall_seconds": 3.0381596660008654,
+      "backend_seconds": 3.023519285,
+      "id": "clean-30s",
+      "reference": "LINNELL'S PICTURES ARE A SORT OF UP GUARDS AND AT EM PAINTINGS AND MASON'S EXQUISITE IDYLLS ARE AS NATIONAL AS A JINGO POEM MISTER BIRKET FOSTER'S LANDSCAPES SMILE AT ONE MUCH IN THE SAME WAY THAT MISTER CARKER USED TO FLASH HIS TEETH AND MISTER JOHN COLLIER GIVES HIS SITTER A CHEERFUL SLAP ON THE BACK BEFORE HE SAYS LIKE A SHAMPOOER IN A TURKISH BATH NEXT MAN",
+      "audio_seconds": 29.4,
+      "inference_seconds": 3.0381596660008654,
+      "word_errors": 6,
+      "reference_words": 68,
+      "wer": 0.08823529411764706
+    },
+    {
+      "ok": true,
+      "text": "Linel's pictures are a sort of up guards and atom paintings, and Mason's exquisite idols are as national as a jingo poem. Mr. Burke and Foster's landscapes smile at one much in the same way that Mr. Carker used to flash his teeth. And Mr. John Collier gives his sitter a cheerful slap in the back before he says, like a shampooer in a Turkish bath, \"The next man,",
+      "wall_seconds": 2.9848983219999354,
+      "backend_seconds": 2.971137934,
+      "id": "noise-30s-20db",
+      "reference": "LINNELL'S PICTURES ARE A SORT OF UP GUARDS AND AT EM PAINTINGS AND MASON'S EXQUISITE IDYLLS ARE AS NATIONAL AS A JINGO POEM MISTER BIRKET FOSTER'S LANDSCAPES SMILE AT ONE MUCH IN THE SAME WAY THAT MISTER CARKER USED TO FLASH HIS TEETH AND MISTER JOHN COLLIER GIVES HIS SITTER A CHEERFUL SLAP ON THE BACK BEFORE HE SAYS LIKE A SHAMPOOER IN A TURKISH BATH NEXT MAN",
+      "audio_seconds": 29.4,
+      "inference_seconds": 2.9848983219999354,
+      "word_errors": 8,
+      "reference_words": 68,
+      "wer": 0.11764705882352941
+    },
+    {
+      "ok": true,
+      "text": "Linel's pictures are a sort of up-guard and atom painting. Before he says, like a shampoo or a Turkish bath, next man... He laments most bitterly the divorce that has been made between decorative art and what we usually call pictures. Makes a customary appeal to the last judgment and reminds us that in the great days of art, Michelangelo was the furnishing upholsterer. And with this, he stepped forward and burst the stout chains as easily as if they had been threads.",
+      "wall_seconds": 5.7435447680036305,
+      "backend_seconds": 5.711351445,
+      "id": "clean-60s",
+      "reference": "LINNELL'S PICTURES ARE A SORT OF UP GUARDS AND AT EM PAINTINGS AND MASON'S EXQUISITE IDYLLS ARE AS NATIONAL AS A JINGO POEM MISTER BIRKET FOSTER'S LANDSCAPES SMILE AT ONE MUCH IN THE SAME WAY THAT MISTER CARKER USED TO FLASH HIS TEETH AND MISTER JOHN COLLIER GIVES HIS SITTER A CHEERFUL SLAP ON THE BACK BEFORE HE SAYS LIKE A SHAMPOOER IN A TURKISH BATH NEXT MAN HE LAMENTS MOST BITTERLY THE DIVORCE THAT HAS BEEN MADE BETWEEN DECORATIVE ART AND WHAT WE USUALLY CALL PICTURES MAKES THE CUSTOMARY APPEAL TO THE LAST JUDGMENT AND REMINDS US THAT IN THE GREAT DAYS OF ART MICHAEL ANGELO WAS THE FURNISHING UPHOLSTERER I HAVE REMAINED A PRISONER ONLY BECAUSE I WISHED TO BE ONE AND WITH THIS HE STEPPED FORWARD AND BURST THE STOUT CHAINS AS EASILY AS IF THEY HAD BEEN THREADS",
+      "audio_seconds": 59.565,
+      "inference_seconds": 5.7435447680036305,
+      "word_errors": 66,
+      "reference_words": 142,
+      "wer": 0.4647887323943662
+    },
+    {
+      "ok": true,
+      "text": "The Cudd on his chest still dripping blood. The ache of his overstrained eyes, even the soaring arena around him with thousands of spectators, were trivialities not worth thinking about. He tells us that at this festive season of the year, with Christmas and Rosemary's death, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas and a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas, a Christmas,",
+      "wall_seconds": 29.22387528901163,
+      "backend_seconds": 29.137445646,
+      "id": "clean-120s",
+      "reference": "LINNELL'S PICTURES ARE A SORT OF UP GUARDS AND AT EM PAINTINGS AND MASON'S EXQUISITE IDYLLS ARE AS NATIONAL AS A JINGO POEM MISTER BIRKET FOSTER'S LANDSCAPES SMILE AT ONE MUCH IN THE SAME WAY THAT MISTER CARKER USED TO FLASH HIS TEETH AND MISTER JOHN COLLIER GIVES HIS SITTER A CHEERFUL SLAP ON THE BACK BEFORE HE SAYS LIKE A SHAMPOOER IN A TURKISH BATH NEXT MAN HE LAMENTS MOST BITTERLY THE DIVORCE THAT HAS BEEN MADE BETWEEN DECORATIVE ART AND WHAT WE USUALLY CALL PICTURES MAKES THE CUSTOMARY APPEAL TO THE LAST JUDGMENT AND REMINDS US THAT IN THE GREAT DAYS OF ART MICHAEL ANGELO WAS THE FURNISHING UPHOLSTERER IN FACT HE IS QUITE SEVERE ON MISTER RUSKIN FOR NOT RECOGNISING THAT A PICTURE SHOULD DENOTE THE FRAILTY OF MAN AND REMARKS WITH PLEASING COURTESY AND FELICITOUS GRACE THAT MANY PHASES OF FEELING HAVING RETURNED TO THE ROYAL CAVERN KALIKO FIRST POUNDED THE GONG AND THEN SAT IN THE THRONE WEARING RUGGEDO'S DISCARDED RUBY CROWN AND HOLDING IN HIS HAND THE SCEPTRE WHICH RUGGEDO HAD SO OFTEN THROWN AT HIS HEAD THE CUT ON HIS CHEST STILL DRIPPING BLOOD THE ACHE OF HIS OVERSTRAINED EYES EVEN THE SOARING ARENA AROUND HIM WITH THE THOUSANDS OF SPECTATORS WERE TRIVIALITIES NOT WORTH THINKING ABOUT HE TELLS US THAT AT THIS FESTIVE SEASON OF THE YEAR WITH CHRISTMAS AND ROAST BEEF LOOMING BEFORE US SIMILES DRAWN FROM EATING AND ITS RESULTS OCCUR MOST READILY TO THE MIND I HAVE REMAINED A PRISONER ONLY BECAUSE I WISHED TO BE ONE AND WITH THIS HE STEPPED FORWARD AND BURST THE STOUT CHAINS AS EASILY AS IF THEY HAD BEEN THREADS HE ASKED THE HANDLER WHO WAS KNEADING HIS ACHING MUSCLES",
+      "audio_seconds": 119.705,
+      "inference_seconds": 29.22387528901163,
+      "word_errors": 363,
+      "reference_words": 287,
+      "wer": 1.264808362369338
+    }
+  ],
+  "load_seconds": 3.314778452,
+  "ready": true,
+  "sampled_peak_rss_mib": 1951.2890625
+}

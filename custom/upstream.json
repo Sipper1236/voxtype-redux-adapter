@@ -1,0 +1,9 @@
+{
+  "upstream": "https://github.com/peteonrails/voxtype",
+  "base_commit": "dc499ad47444ba6ea80d8750aa3581c23120821c",
+  "fork": "https://github.com/Sipper1236/voxtype-redux-native",
+  "branch": "redux-cpp-native",
+  "commit": "f3782833479934b70b61848eb4348af61d6ad3d6",
+  "feature": "parakeet-cpp",
+  "license": "MIT"
+}

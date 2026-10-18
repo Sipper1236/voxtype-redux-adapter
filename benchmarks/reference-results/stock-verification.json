@@ -1,0 +1,46 @@
+[
+  {
+    "model": "tiny.en",
+    "binary": "/usr/bin/voxtype",
+    "exit_code": 0,
+    "wall_seconds": 2.278136829001596,
+    "logged_inference_seconds": 2.14,
+    "text": "Linnell's pictures are a sort of up-guards and atom paintings, and Mason's exquisite idles are as national as a jingo poem. Mr. Birkett Foster's landscapes smile at one much in the same way that Mr. Carker used to flash his teeth. And Mr. John Collier gives his sitter a cheerful slap in the back, before he says, like",
+    "word_errors": 13,
+    "reference_words": 68,
+    "wer": 0.19117647058823528
+  },
+  {
+    "model": "base.en",
+    "binary": "/usr/bin/voxtype",
+    "exit_code": 0,
+    "wall_seconds": 4.292665237997426,
+    "logged_inference_seconds": 4.13,
+    "text": "Lynille's pictures are sort of up guards and atom paintings, and Mason's exquisite idols are as national as a jingo poem. Mr. Burkett Foster's landscapes smile at one much in the same way that Mr. Carkerer used to flash his teeth. And Mr. John Collier gives his sitter a cheerful slap on the back before he says like a shampoo or a Turkish bath.",
+    "word_errors": 11,
+    "reference_words": 68,
+    "wer": 0.16176470588235295
+  },
+  {
+    "model": "parakeet-int8",
+    "binary": "/usr/lib/voxtype/voxtype-onnx-avx2",
+    "exit_code": 0,
+    "wall_seconds": 11.123841573004029,
+    "logged_inference_seconds": 5.43,
+    "text": "Linnell's pictures are a sort of Up Guards and Adam paintings, and Mason's exquisite idols are as national as a jingo poem. mister Burkett Foster's landscapes smile at one much in the same way that mister Carker used to flash his teeth. And mister John Collier gives his sitter a cheerful slap on the back, before he says, like a shampooer in a Turkish bath Next man.",
+    "word_errors": 4,
+    "reference_words": 68,
+    "wer": 0.058823529411764705
+  },
+  {
+    "model": "moonshine-base",
+    "binary": "/usr/lib/voxtype/voxtype-onnx-avx2",
+    "exit_code": 0,
+    "wall_seconds": 5.68196992999583,
+    "logged_inference_seconds": 3.25,
+    "text": "Linel's pictures are a sort of up guards and atom paintings, and Mason's exquisite idols are as national as a jingo poem. Mr. Burke at Foster's Landscapes smile at one much in the same way that Mr. Carker used to flash his teeth. And Mr. John Collier gives his sitter a cheerful slap on the back before he says, like a shampooer in a Turkish bath, \"Next man",
+    "word_errors": 6,
+    "reference_words": 68,
+    "wer": 0.08823529411764706
+  }
+]

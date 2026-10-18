@@ -1,0 +1,17 @@
+[
+  {
+    "model": "tiny.en",
+    "sampled_peak_rss_mib": 272.66796875,
+    "total_wall_seconds": 66.61834628500219
+  },
+  {
+    "model": "redux",
+    "sampled_peak_rss_mib": 586.50390625,
+    "total_wall_seconds": 79.09690790699096
+  },
+  {
+    "model": "base.en",
+    "sampled_peak_rss_mib": 487.71484375,
+    "total_wall_seconds": 120.64860655099619
+  }
+]

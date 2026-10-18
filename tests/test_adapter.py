@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+import time
 import unittest
 import tomllib
 from unittest import mock
@@ -67,6 +68,7 @@ class ProtocolTests(unittest.TestCase):
             ['--chunk-seconds', '-1'], ['--chunk-seconds', 'nan'],
             ['--chunk-seconds', 'inf'], ['--chunk-seconds', '1'],
             ['--backend', 'photon', '--model', 'other/model'],
+            ['--backend', 'cpp', '--compat-model', '/unused/model'],
         ]:
             with self.subTest(options=options):
                 process = subprocess.run([sys.executable, str(ROOT / 'redux_adapter.py'), 'serve'] + options,
@@ -80,6 +82,39 @@ class ProtocolTests(unittest.TestCase):
                 '--output-file', '/unused/output'] + option, capture_output=True, text=True)
             self.assertEqual(p.returncode, 2)
             self.assertIn('unsupported', p.stderr)
+
+    def test_photon_compatibility_alias_without_installing_photon(self):
+        with tempfile.TemporaryDirectory(prefix='redux-photon-test-') as tmp:
+            root = Path(tmp); path = root/'worker.sock'
+            audio = root/'input.wav'; audio.touch()
+            alias = root/'custom-redux.gguf'
+            env = dict(os.environ, PYTHONPATH=str(ROOT))
+            env.pop('NOTIFY_SOCKET', None)
+            code = """import redux_adapter as r
+class FakePhoton:
+ def __init__(self,*a,**kw):pass
+ def transcribe(self,path):return 'hello'
+ def close(self):pass
+r.PhotonEngine=FakePhoton
+r.main()
+"""
+            worker = subprocess.Popen([sys.executable,'-c',code,'serve','--backend','photon',
+                '--compat-model',str(alias),'--socket',str(path)],env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+            try:
+                for _ in range(100):
+                    if worker.poll() is not None:
+                        self.fail(worker.communicate()[1])
+                    try:
+                        redux_adapter.request({'command':'status'},str(path));break
+                    except OSError:time.sleep(.03)
+                else:self.fail('worker startup timeout')
+                payload={'command':'transcribe','audio':str(audio),'model':str(alias)}
+                self.assertEqual(redux_adapter.request(payload,str(path))['text'],'hello')
+                payload['model']=str(root/'different.gguf')
+                with self.assertRaisesRegex(RuntimeError,'differs'):
+                    redux_adapter.request(payload,str(path))
+            finally:
+                worker.terminate();worker.communicate(timeout=10)
 
     def test_truncated_and_oversized_frames_are_rejected(self):
         import io

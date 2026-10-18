@@ -18,7 +18,7 @@ import wave
 
 DEFAULT_MODEL = Path.home() / '.local/share/voxtype/models/redux-packed.gguf'
 DEFAULT_LIBRARY = Path.home() / '.local/lib/voxtype-parakeet/libparakeet.so'
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 MAX_MESSAGE = 1024 * 1024
 
 
@@ -183,7 +183,7 @@ def serve(args):
                                 'pool_threads': args.pool_threads, 'chunk_seconds': args.chunk_seconds}
                 elif payload.get('command') == 'transcribe':
                     requested_model = payload.get('model')
-                    expected_model = Path(args.model or DEFAULT_MODEL) if args.backend == 'cpp' else DEFAULT_MODEL
+                    expected_model = Path(args.model or DEFAULT_MODEL) if args.backend == 'cpp' else Path(args.compat_model or DEFAULT_MODEL)
                     if requested_model and Path(requested_model).resolve() != expected_model.resolve():
                         raise ValueError('requested model differs from worker model')
                     audio = Path(payload['audio']).resolve(strict=True)
@@ -228,11 +228,14 @@ def main():
         parser.add_argument('serve')
         parser.add_argument('--backend', choices=['cpp', 'photon'], default='cpp')
         parser.add_argument('--model')
+        parser.add_argument('--compat-model', help='Photon only: expected GGUF path in stock Voxtype CLI requests')
         parser.add_argument('--library', default=str(DEFAULT_LIBRARY))
         parser.add_argument('--socket')
         parser.add_argument('--pool-threads', type=int, choices=[0, 1, 2, 4], default=0, help='Use two native backend slots, N compute threads each; zero uses native defaults')
         parser.add_argument('--chunk-seconds', type=float, default=0, help='Split long CPP input near quiet frames; zero disables splitting')
         args = parser.parse_args()
+        if args.backend != 'photon' and args.compat_model:
+            parser.error('--compat-model applies only to the Photon backend')
         if args.backend == 'photon' and args.model not in (None, 'moondream/parakeet-redux'):
             parser.error('Photon backend is restricted to moondream/parakeet-redux')
         if not math.isfinite(args.chunk_seconds) or (args.chunk_seconds != 0 and args.chunk_seconds < 5):

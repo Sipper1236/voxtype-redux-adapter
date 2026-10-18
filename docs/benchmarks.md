@@ -73,7 +73,7 @@ The corpus is a small public LibriSpeech validation subset with one speaker, not
 - `measurements.csv`: per-run recording latency, word error counts and transcripts.
 - `thread-sweep.json`: the eight measured thread-sweep trials.
 - `benchmark-metadata.json`: source revisions, model/library hashes and hardware settings.
-- The original screening used machine-specific harnesses; those are not included in this source release. The CSV and manifest make the published measurements inspectable. Test your own recordings through the installed stock Voxtype profile; these measurements are not a portable benchmark tool.
+- Portable versions of the screening harnesses and complete archived per-run JSON are now included under [`../benchmarks/`](../benchmarks/). The original native Voxtype fork is pinned as `custom-voxtype/`; its helper source and standalone patch are included. See the benchmark README for path overrides, corpus preparation and reproduction limits.
 - Native validation also exercised installed stock transcription, wrong-model rejection, duplicate-worker protection, stale-socket recovery after SIGKILL, permissions and graceful cleanup.
 
 Source corpus: [Hugging Face LibriSpeech dummy validation](https://huggingface.co/datasets/hf-internal-testing/librispeech_asr_dummy). Model/runtime: [Redux model card](https://huggingface.co/moondream/parakeet-redux), [parakeet.cpp](https://github.com/mudler/parakeet.cpp). Photon measured with `moondream==2.6.1`, CPU PyTorch `2.14.1+cpu`; ONNX helper used `onnxruntime==1.31.0`.

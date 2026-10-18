@@ -1,0 +1,504 @@
+From f3782833479934b70b61848eb4348af61d6ad3d6 Mon Sep 17 00:00:00 2001
+From: Sipper1236 <82241081+Sipper1236@users.noreply.github.com>
+Date: Sun, 18 Oct 2026 16:08:05 -0300
+Subject: [PATCH] Add in-process parakeet.cpp GGUF backend and benchmark worker
+
+---
+ Cargo.toml                     |   4 +
+ README.md                      |   2 +
+ docs/parakeet-cpp-redux.md     |  54 ++++++++
+ examples/bench_worker.rs       |  49 +++++++
+ src/config/schema.rs           |   2 +-
+ src/transcribe/mod.rs          |   2 +
+ src/transcribe/parakeet.rs     |  44 +++++++
+ src/transcribe/parakeet_cpp.rs | 227 +++++++++++++++++++++++++++++++++
+ 8 files changed, 383 insertions(+), 1 deletion(-)
+ create mode 100644 docs/parakeet-cpp-redux.md
+ create mode 100644 examples/bench_worker.rs
+ create mode 100644 src/transcribe/parakeet_cpp.rs
+
+diff --git a/Cargo.toml b/Cargo.toml
+index 04d16ed..8f37f0e 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -84,6 +84,9 @@ whisper-rs = "0.16.0"
+ 
+ # Parakeet speech-to-text (optional, ONNX-based)
+ parakeet-rs = { version = "0.3.5", optional = true }
++# Native Parakeet C API backend. This allows GGUF models such as Parakeet Redux
++# to run in-process without an HTTP or command adapter.
++libloading = { version = "0.8", optional = true }
+ 
+ # ONNX-based ASR engines (Moonshine, SenseVoice, Paraformer, Dolphin, Omnilingual)
+ ort = { version = "2.0.0-rc.12", optional = true, default-features = false, features = ["std", "ndarray", "api-24", "half"] }
+@@ -196,6 +199,7 @@ gpu-hipblas = ["whisper-rs/hipblas"]
+ ml-diarization = ["dep:ort", "dep:ndarray"]
+ # Parakeet backend (ONNX-based, alternative to Whisper)
+ parakeet = ["dep:parakeet-rs"]
++parakeet-cpp = ["parakeet", "parakeet-load-dynamic", "dep:libloading"]
+ parakeet-cuda = ["parakeet", "parakeet-rs/cuda"]
+ parakeet-tensorrt = ["parakeet", "parakeet-rs/tensorrt"]
+ parakeet-migraphx = ["parakeet", "parakeet-rs/migraphx"]
+diff --git a/README.md b/README.md
+index 430b518..69bfc10 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,5 @@
++> **Redux native C API fork:** optional in-process parakeet.cpp support, based on Voxtype 1.1.1. See [build/configuration and limitations](docs/parakeet-cpp-redux.md). The [standalone adapter and benchmarks](https://github.com/Sipper1236/voxtype-redux-adapter) use stock Voxtype and link this fork for comparison.
++
+ # Voxtype
+ 
+ [![Voxtype - Voice to Text for Linux](website/images/og-preview.png)](https://voxtype.io)
+diff --git a/docs/parakeet-cpp-redux.md b/docs/parakeet-cpp-redux.md
+new file mode 100644
+index 0000000..b0d6f18
+--- /dev/null
++++ b/docs/parakeet-cpp-redux.md
+@@ -0,0 +1,54 @@
++# Native parakeet.cpp / Redux extension
++
++This fork adds an optional `parakeet-cpp` Cargo feature to Voxtype 1.1.1. It dynamically loads the parakeet.cpp C API and passes the captured mono 16 kHz float PCM directly to the resident native model. It does not require the external adapter.
++
++The separate [stock-Voxtype adapter repository](https://github.com/Sipper1236/voxtype-redux-adapter) contains the adapter, benchmark runners, archived results, and a pinned submodule for this fork. The adapter is the selected deployment; this fork preserves the original in-process implementation for comparison and development.
++
++## Build
++
++Install upstream Voxtype's Rust/native build prerequisites, including libclang/bindgen and the ALSA development headers. Build a recent parakeet.cpp shared library with C API ABI 10+ and obtain a compatible Redux GGUF separately.
++
++```sh
++cargo build --release --features parakeet-cpp --bin voxtype
++```
++
++Configure an isolated profile:
++
++```toml
++engine = "parakeet"
++[hotkey]
++enabled = false
++[parakeet]
++model = "/absolute/path/to/redux-packed.gguf"
++```
++
++```sh
++export VOXTYPE_PARAKEET_CPP_LIBRARY=/absolute/path/to/libparakeet.so
++./target/release/voxtype --config /absolute/path/to/native.toml transcribe /absolute/path/to/speech.wav
++```
++
++The shared library must be able to find its ggml dependencies. Other library search candidates are `~/.local/lib/voxtype-parakeet/libparakeet.so`, the system loader's `libparakeet.so`, `/usr/local/lib/libparakeet.so`, and `/usr/lib/libparakeet.so`.
++
++## Benchmark helper
++
++`examples/bench_worker.rs` loads a configured transcriber once, then reads newline-delimited JSON requests from stdin:
++
++```sh
++cargo build --release --features parakeet-cpp,moonshine --example bench_worker
++printf '{"file":"/absolute/path/to/speech.wav"}\n' | \
++  ./target/release/examples/bench_worker /absolute/path/to/native.toml
++```
++
++The first output line reports readiness and loading time. Each request returns text and inference time. ONNX backends need a compatible dynamic ONNX Runtime (API 24+); set `ORT_DYLIB_PATH` when required. GGUF C API inference does not initialize ONNX Runtime.
++
++## Scope and validation
++
++- `.gguf` paths select the C API; existing ONNX Parakeet paths remain available.
++- One mutex protects the native context, and the shared library remains loaded until the context is freed.
++- Transcript strings are copied and freed with the native allocator's matching function.
++- Timed transcription currently returns one segment spanning the recording. It does not provide native word or sentence alignment.
++- This original in-process path does not expose the adapter's pool-thread or quiet-chunk tuning. Its original default benchmark result is therefore not an interface-only comparison with the tuned adapter.
++
++The implementation passed a feature check/build and native transcription on an i5-8350U. The original laptop build used an isolated manifest with the unrelated OpenVINO git patch removed to avoid its fetch, reused bundled Whisper bindings, and kept temporary build output off a quota-limited `/tmp`. Those environment workarounds are not committed here. A fresh full-manifest build is not claimed by that validation; upstream Cargo may fetch its configured OpenVINO patch even when that feature is unused.
++
++Upstream Voxtype remains MIT-licensed. parakeet.cpp and model weights are separate dependencies with their own licenses; Redux weights are CC BY 4.0. No models or native libraries are bundled in this fork.
+diff --git a/examples/bench_worker.rs b/examples/bench_worker.rs
+new file mode 100644
+index 0000000..2277afc
+--- /dev/null
++++ b/examples/bench_worker.rs
+@@ -0,0 +1,49 @@
++use std::{
++    io::{self, BufRead, Write},
++    time::Instant,
++};
++use voxtype::{config::Config, transcribe};
++fn main() -> anyhow::Result<()> {
++    let args: Vec<String> = std::env::args().collect();
++    if args.len() != 2 {
++        anyhow::bail!("usage: bench_worker CONFIG.toml");
++    }
++    let cfg: Config = toml::from_str(&std::fs::read_to_string(&args[1])?)?;
++    let start = Instant::now();
++    let model = transcribe::create_transcriber(&cfg)?;
++    println!(
++        "{}",
++        serde_json::json!({"ready":true,"load_seconds":start.elapsed().as_secs_f64()})
++    );
++    io::stdout().flush()?;
++    for line in io::stdin().lock().lines() {
++        let req: serde_json::Value = serde_json::from_str(&line?)?;
++        let file = req["file"]
++            .as_str()
++            .ok_or_else(|| anyhow::anyhow!("request requires a file path"))?;
++        let mut w = hound::WavReader::open(file)?;
++        let spec = w.spec();
++        if spec.sample_rate != 16000
++            || spec.channels != 1
++            || spec.bits_per_sample != 16
++            || spec.sample_format != hound::SampleFormat::Int
++        {
++            anyhow::bail!("expected mono PCM16 WAV at 16 kHz");
++        }
++        let pcm: Vec<f32> = w
++            .samples::<i16>()
++            .map(|s| s.unwrap() as f32 / 32768.0)
++            .collect();
++        let start = Instant::now();
++        let result = model.transcribe(&pcm);
++        let response = match result {
++            Ok(text) => {
++                serde_json::json!({"ok":true,"text":text,"seconds":start.elapsed().as_secs_f64()})
++            }
++            Err(e) => serde_json::json!({"ok":false,"error":e.to_string()}),
++        };
++        println!("{response}");
++        io::stdout().flush()?;
++    }
++    Ok(())
++}
+diff --git a/src/config/schema.rs b/src/config/schema.rs
+index dd69e7a..7858f09 100644
+--- a/src/config/schema.rs
++++ b/src/config/schema.rs
+@@ -424,7 +424,7 @@ pub const CONFIG_KEYS: &[KeySpec] = &[
+         "Model",
+         "Parakeet model directory name under the voxtype models dir.",
+     )
+-    .for_onnx_engine("parakeet"),
++    .for_engine("parakeet"),
+     spec(
+         "parakeet.model_type",
+         "parakeet",
+diff --git a/src/transcribe/mod.rs b/src/transcribe/mod.rs
+index db42a05..33cbd56 100644
+--- a/src/transcribe/mod.rs
++++ b/src/transcribe/mod.rs
+@@ -14,6 +14,8 @@
+ //! - Optionally OpenVINO Whisper for Intel NPU/CPU/GPU (when `openvino-whisper` feature is enabled)
+ 
+ pub mod cli;
++#[cfg(feature = "parakeet-cpp")]
++pub mod parakeet_cpp;
+ #[cfg(feature = "parakeet")]
+ pub mod parakeet_streaming;
+ pub mod remote;
+diff --git a/src/transcribe/parakeet.rs b/src/transcribe/parakeet.rs
+index 73e5323..5978b68 100644
+--- a/src/transcribe/parakeet.rs
++++ b/src/transcribe/parakeet.rs
+@@ -28,6 +28,9 @@ enum ParakeetModel {
+     Ctc(Mutex<Parakeet>),
+     /// TDT model (token-level, better quality output)
+     Tdt(Mutex<ParakeetTDT>),
++    /// Redux and other GGUF models through parakeet.cpp's in-process C API.
++    #[cfg(feature = "parakeet-cpp")]
++    Cpp(super::parakeet_cpp::ParakeetCppTranscriber),
+ }
+ 
+ /// Parakeet-based transcriber using ONNX Runtime
+@@ -43,6 +46,31 @@ impl ParakeetTranscriber {
+     pub fn new(config: &ParakeetConfig) -> Result<Self, TranscribeError> {
+         let model_path = resolve_model_path(&config.model)?;
+ 
++        // GGUF models use parakeet.cpp directly in this process. No server or
++        // subprocess sits between Voxtype and the native transcription engine.
++        if model_path.extension().is_some_and(|ext| ext == "gguf") {
++            #[cfg(feature = "parakeet-cpp")]
++            {
++                tracing::info!("Loading native Parakeet GGUF model from {:?}", model_path);
++                let start = std::time::Instant::now();
++                let model = super::parakeet_cpp::ParakeetCppTranscriber::new(&model_path)?;
++                tracing::info!(
++                    "Native Parakeet GGUF model loaded in {:.2}s",
++                    start.elapsed().as_secs_f32()
++                );
++                return Ok(Self {
++                    model: ParakeetModel::Cpp(model),
++                    model_type: ParakeetModelType::Tdt,
++                });
++            }
++            #[cfg(not(feature = "parakeet-cpp"))]
++            {
++                return Err(TranscribeError::InitFailed(
++                    "GGUF Parakeet models require a Voxtype build with --features parakeet-cpp and libparakeet.so available at runtime".to_string(),
++                ));
++            }
++        }
++
+         // Determine model type: use config override or auto-detect from directory
+         let model_type = config
+             .model_type
+@@ -152,6 +180,8 @@ impl Transcriber for ParakeetTranscriber {
+ 
+                 result.text.trim().to_string()
+             }
++            #[cfg(feature = "parakeet-cpp")]
++            ParakeetModel::Cpp(parakeet) => parakeet.transcribe(samples)?,
+         };
+ 
+         tracing::info!(
+@@ -204,6 +234,20 @@ impl Transcriber for ParakeetTranscriber {
+                         ))
+                     })?
+             }
++            #[cfg(feature = "parakeet-cpp")]
++            ParakeetModel::Cpp(parakeet) => {
++                let text = parakeet.transcribe(samples)?;
++                let duration = samples.len() as f32 / 16000.0;
++                return Ok(if text.is_empty() {
++                    vec![]
++                } else {
++                    vec![TimedSegment {
++                        text,
++                        start_secs: 0.0,
++                        end_secs: duration,
++                    }]
++                });
++            }
+         };
+ 
+         // Split the full text on sentence boundaries (.!?) and map each sentence
+diff --git a/src/transcribe/parakeet_cpp.rs b/src/transcribe/parakeet_cpp.rs
+new file mode 100644
+index 0000000..3ff2406
+--- /dev/null
++++ b/src/transcribe/parakeet_cpp.rs
+@@ -0,0 +1,227 @@
++//! In-process Parakeet transcription through parakeet.cpp's stable C API.
++//!
++//! The native library owns model loading and inference. Voxtype passes its
++//! captured mono 16 kHz samples directly; this module does not start a server,
++//! write a temporary WAV, or spawn an adapter process.
++
++use crate::error::TranscribeError;
++use libloading::Library;
++use std::ffi::{c_char, c_int, c_void, CStr, CString};
++use std::path::Path;
++use std::sync::Mutex;
++
++type AbiVersionFn = unsafe extern "C" fn() -> c_int;
++type LoadFn = unsafe extern "C" fn(*const c_char) -> *mut c_void;
++type LoadErrorFn = unsafe extern "C" fn() -> *const c_char;
++type LastErrorFn = unsafe extern "C" fn(*mut c_void) -> *const c_char;
++type TranscribePcmFn =
++    unsafe extern "C" fn(*mut c_void, *const f32, c_int, c_int, c_int) -> *mut c_char;
++type FreeContextFn = unsafe extern "C" fn(*mut c_void);
++type FreeStringFn = unsafe extern "C" fn(*mut c_char);
++
++const REQUIRED_ABI: c_int = 10;
++
++/// Loaded model and native library. A mutex serializes inference through the
++/// single model context and makes the transcriber safe to share with Voxtype.
++pub struct ParakeetCppTranscriber {
++    runtime: Mutex<Runtime>,
++}
++
++struct Runtime {
++    // Keep the shared object loaded until after its context has been freed.
++    _library: Library,
++    context: *mut c_void,
++    transcribe_pcm: TranscribePcmFn,
++    last_error: LastErrorFn,
++    free_context: FreeContextFn,
++    free_string: FreeStringFn,
++}
++
++// `context` is owned by Runtime, and every call that uses it is protected by
++// ParakeetCppTranscriber::runtime's mutex. parakeet.cpp documents this model
++// context as reusable for repeated transcription calls.
++unsafe impl Send for Runtime {}
++
++impl Drop for Runtime {
++    fn drop(&mut self) {
++        if !self.context.is_null() {
++            // SAFETY: context came from this library's load function, and the
++            // library is still alive in `_library` while Drop is running.
++            unsafe { (self.free_context)(self.context) };
++            self.context = std::ptr::null_mut();
++        }
++    }
++}
++
++impl ParakeetCppTranscriber {
++    pub fn new(model_path: &Path) -> Result<Self, TranscribeError> {
++        if !model_path.is_file() {
++            return Err(TranscribeError::ModelNotFound(format!(
++                "Parakeet GGUF model file not found: {}",
++                model_path.display()
++            )));
++        }
++
++        let library = load_library()?;
++        // SAFETY: each symbol is loaded from the same library and its type is
++        // copied from the published parakeet_capi.h ABI declarations.
++        let abi_version = unsafe { library.get::<AbiVersionFn>(b"parakeet_capi_abi_version\0") }
++            .map(|symbol| *symbol)
++            .map_err(|e| {
++                init_error(format!(
++                    "libparakeet.so is missing its ABI version symbol: {e}"
++                ))
++            })?;
++        let load = unsafe { library.get::<LoadFn>(b"parakeet_capi_load\0") }
++            .map(|symbol| *symbol)
++            .map_err(|e| {
++                init_error(format!("libparakeet.so is missing parakeet_capi_load: {e}"))
++            })?;
++        let load_error = unsafe { library.get::<LoadErrorFn>(b"parakeet_capi_load_error\0") }
++            .map(|symbol| *symbol)
++            .map_err(|e| {
++                init_error(format!(
++                    "libparakeet.so is missing parakeet_capi_load_error: {e}"
++                ))
++            })?;
++        let transcribe_pcm =
++            unsafe { library.get::<TranscribePcmFn>(b"parakeet_capi_transcribe_pcm\0") }
++                .map(|symbol| *symbol)
++                .map_err(|e| {
++                    init_error(format!(
++                        "libparakeet.so is missing parakeet_capi_transcribe_pcm: {e}"
++                    ))
++                })?;
++        let last_error = unsafe { library.get::<LastErrorFn>(b"parakeet_capi_last_error\0") }
++            .map(|symbol| *symbol)
++            .map_err(|e| {
++                init_error(format!(
++                    "libparakeet.so is missing parakeet_capi_last_error: {e}"
++                ))
++            })?;
++        let free_context = unsafe { library.get::<FreeContextFn>(b"parakeet_capi_free\0") }
++            .map(|symbol| *symbol)
++            .map_err(|e| {
++                init_error(format!("libparakeet.so is missing parakeet_capi_free: {e}"))
++            })?;
++        let free_string = unsafe { library.get::<FreeStringFn>(b"parakeet_capi_free_string\0") }
++            .map(|symbol| *symbol)
++            .map_err(|e| {
++                init_error(format!(
++                    "libparakeet.so is missing parakeet_capi_free_string: {e}"
++                ))
++            })?;
++
++        let version = unsafe { abi_version() };
++        if version < REQUIRED_ABI {
++            return Err(init_error(format!(
++                "libparakeet.so ABI {version} is too old; Voxtype requires ABI {REQUIRED_ABI} or newer"
++            )));
++        }
++
++        let path = CString::new(model_path.to_string_lossy().as_bytes()).map_err(|_| {
++            init_error("Parakeet model path contains an embedded NUL byte".to_string())
++        })?;
++        let context = unsafe { load(path.as_ptr()) };
++        if context.is_null() {
++            let reason = unsafe { c_string(load_error()) };
++            return Err(init_error(format!(
++                "could not load Parakeet GGUF model {}: {reason}",
++                model_path.display()
++            )));
++        }
++
++        Ok(Self {
++            runtime: Mutex::new(Runtime {
++                _library: library,
++                context,
++                transcribe_pcm,
++                last_error,
++                free_context,
++                free_string,
++            }),
++        })
++    }
++
++    pub fn transcribe(&self, samples: &[f32]) -> Result<String, TranscribeError> {
++        if samples.is_empty() {
++            return Err(TranscribeError::AudioFormat(
++                "Empty audio buffer".to_string(),
++            ));
++        }
++        let sample_count = c_int::try_from(samples.len()).map_err(|_| {
++            TranscribeError::AudioFormat("Audio buffer exceeds the native API limit".to_string())
++        })?;
++        let runtime = self.runtime.lock().map_err(|e| {
++            TranscribeError::InferenceFailed(format!("Failed to lock Parakeet C API: {e}"))
++        })?;
++
++        // SAFETY: samples points to `sample_count` valid f32 values for this
++        // synchronous call; Voxtype audio is mono, 16 kHz; the context remains
++        // locked and alive for the duration of the call.
++        let output = unsafe {
++            (runtime.transcribe_pcm)(runtime.context, samples.as_ptr(), sample_count, 16000, 0)
++        };
++        if output.is_null() {
++            let reason = unsafe { c_string((runtime.last_error)(runtime.context)) };
++            return Err(TranscribeError::InferenceFailed(format!(
++                "Parakeet Redux inference failed: {reason}"
++            )));
++        }
++
++        // SAFETY: the C API returns a NUL-terminated UTF-8 string allocated by
++        // its own allocator. Copy it before freeing through the matching API.
++        let text = unsafe { CStr::from_ptr(output) }
++            .to_string_lossy()
++            .trim()
++            .to_string();
++        unsafe { (runtime.free_string)(output) };
++        Ok(text)
++    }
++}
++
++fn load_library() -> Result<Library, TranscribeError> {
++    let mut candidates = Vec::new();
++    if let Some(path) = std::env::var_os("VOXTYPE_PARAKEET_CPP_LIBRARY") {
++        candidates.push(path.into());
++    }
++    candidates.push(
++        dirs::home_dir()
++            .unwrap_or_default()
++            .join(".local/lib/voxtype-parakeet/libparakeet.so"),
++    );
++    candidates.push("libparakeet.so".into());
++    candidates.push("/usr/local/lib/libparakeet.so".into());
++    candidates.push("/usr/lib/libparakeet.so".into());
++
++    let mut errors = Vec::new();
++    for path in candidates {
++        // SAFETY: libparakeet is a native shared library with the stable C API;
++        // the handle is retained by Runtime for as long as its function pointers
++        // and context are in use.
++        match unsafe { Library::new(&path) } {
++            Ok(library) => return Ok(library),
++            Err(error) => errors.push(format!("{}: {error}", path.display())),
++        }
++    }
++
++    Err(init_error(format!(
++        "could not load libparakeet.so (tried {}); install the shared parakeet.cpp library or set VOXTYPE_PARAKEET_CPP_LIBRARY",
++        errors.join("; ")
++    )))
++}
++
++unsafe fn c_string(ptr: *const c_char) -> String {
++    if ptr.is_null() {
++        return "unknown native error".to_string();
++    }
++    // SAFETY: C API error strings are NUL-terminated and valid for the current
++    // thread until the next API operation.
++    unsafe { CStr::from_ptr(ptr) }
++        .to_string_lossy()
++        .into_owned()
++}
++
++fn init_error(message: String) -> TranscribeError {
++    TranscribeError::InitFailed(message)
++}
+-- 
+2.56.0
+

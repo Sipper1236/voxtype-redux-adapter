@@ -15,6 +15,12 @@ Compositor shortcut → stock Voxtype → temporary WAV → adapter CLI
 
 Tested on Linux with packaged Voxtype 1.1.0 and parakeet.cpp C API ABI 10. This is an experimental initial release; API compatibility and performance on other systems need validation. It does not require Ryoku.
 
+## Native fork and reproducible benchmarks
+
+The original in-process implementation is now included as the pinned [`custom-voxtype/`](custom-voxtype) submodule, backed by the actual [Voxtype native fork](https://github.com/Sipper1236/voxtype-redux-native). [`custom/`](custom/) also contains its standalone patch, parent revision and build notes.
+
+[`benchmarks/`](benchmarks/) includes the portable runners, corpus preparation, raw per-run results, thread/chunk experiments and earlier short-clip history. Clone with `--recurse-submodules` to get the full fork source, or run `git submodule update --init custom-voxtype` later. The submodule is optional for using the stock adapter.
+
 ## Requirements
 
 - Python 3.11+ and stock [Voxtype](https://github.com/peteonrails/voxtype) with its CLI backend.
@@ -103,7 +109,7 @@ These measurements include the stock Voxtype CLI process, WAV conversion, adapte
 
 ## Optional Photon backend
 
-The source retains `serve --backend photon` for comparison with the official Moondream runtime. It is **not used by the default installer** and is imported only when explicitly selected. Install and license that runtime separately; no Photon/native kernel packages are bundled here. Its Python wrapper availability should not be taken as verification that every native/kernel component has matching open-source licensing. For the stock CLI model-identity check, this experimental backend expects the compatibility GGUF at `~/.local/share/voxtype/models/redux-packed.gguf`.
+The source retains `serve --backend photon` for comparison with the official Moondream runtime. It is **not used by the default installer** and is imported only when explicitly selected. Install and license that runtime separately; no Photon/native kernel packages are bundled here. Its Python wrapper availability should not be taken as verification that every native/kernel component has matching open-source licensing. For the stock CLI model-identity check, this experimental backend defaults to the compatibility GGUF at `~/.local/share/voxtype/models/redux-packed.gguf`; `serve --compat-model PATH` selects a different alias path for the same canonical Redux model.
 
 ## Tests
 
@@ -123,7 +129,7 @@ Remove the generated `voxtype.service.d/redux-adapter.conf` drop-in, reload syst
 
 ## Licenses and credits
 
-Adapter code: [MIT](LICENSE). This repository does not bundle model weights, recordings, native libraries, or Photon packages.
+Adapter code: [MIT](LICENSE). No model weights, personal recordings, native libraries, or Photon packages are bundled. The optional Voxtype fork retains its upstream license and public test fixtures.
 
 - [Voxtype](https://github.com/peteonrails/voxtype) and [parakeet.cpp](https://github.com/mudler/parakeet.cpp) are separate MIT-licensed projects. parakeet.cpp uses [ggml](https://github.com/ggml-org/ggml).
 - [Parakeet Redux](https://huggingface.co/moondream/parakeet-redux) weights are CC BY 4.0, derived by Moondream from NVIDIA's [Parakeet TDT 0.6B v3](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3). Converted GGUF weights retain their model licensing and attribution requirements.

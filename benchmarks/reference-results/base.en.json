@@ -1,0 +1,86 @@
+{
+  "name": "base.en",
+  "cases": [
+    {
+      "ok": true,
+      "text": "The other voice snapped with a harsh urgency clearly used to command.",
+      "wall_seconds": 6.488647972000763,
+      "backend_seconds": 6.486021204,
+      "id": "clean-5s",
+      "reference": "THE OTHER VOICE SNAPPED WITH A HARSH URGENCY CLEARLY USED TO COMMAND",
+      "audio_seconds": 5.015,
+      "inference_seconds": 6.488647972000763,
+      "word_errors": 0,
+      "reference_words": 12,
+      "wer": 0.0
+    },
+    {
+      "ok": true,
+      "text": "Having returned to the royal cavern, Calico first pounded the gong and then sat in the throne, wearing Regato's discarded ruby crown and holding in his hand to scepter which Regato had so often thrown at his head.",
+      "wall_seconds": 6.896114682996995,
+      "backend_seconds": 6.889066706,
+      "id": "clean-15s",
+      "reference": "HAVING RETURNED TO THE ROYAL CAVERN KALIKO FIRST POUNDED THE GONG AND THEN SAT IN THE THRONE WEARING RUGGEDO'S DISCARDED RUBY CROWN AND HOLDING IN HIS HAND THE SCEPTRE WHICH RUGGEDO HAD SO OFTEN THROWN AT HIS HEAD",
+      "audio_seconds": 14.47,
+      "inference_seconds": 6.896114682996995,
+      "word_errors": 5,
+      "reference_words": 38,
+      "wer": 0.13157894736842105
+    },
+    {
+      "ok": true,
+      "text": "Lynille's pictures are sort of up guards and atom paintings, and Mason's exquisite idols are as national as a jingo poem. Mr. Burkett Foster's landscapes smile at one much in the same way that Mr. Carkerer used to flash his teeth. And Mr. John Collier gives his sitter a cheerful slap on the back before he says like a shampoo or a Turkish bath.",
+      "wall_seconds": 7.50600103099714,
+      "backend_seconds": 7.486894967,
+      "id": "clean-30s",
+      "reference": "LINNELL'S PICTURES ARE A SORT OF UP GUARDS AND AT EM PAINTINGS AND MASON'S EXQUISITE IDYLLS ARE AS NATIONAL AS A JINGO POEM MISTER BIRKET FOSTER'S LANDSCAPES SMILE AT ONE MUCH IN THE SAME WAY THAT MISTER CARKER USED TO FLASH HIS TEETH AND MISTER JOHN COLLIER GIVES HIS SITTER A CHEERFUL SLAP ON THE BACK BEFORE HE SAYS LIKE A SHAMPOOER IN A TURKISH BATH NEXT MAN",
+      "audio_seconds": 29.4,
+      "inference_seconds": 7.50600103099714,
+      "word_errors": 11,
+      "reference_words": 68,
+      "wer": 0.16176470588235295
+    },
+    {
+      "ok": true,
+      "text": "Lynille's pictures are sort of up guards and atom paintings, and Mason's exquisite idols are as national as a jingo poem. Mr. Burkett Foster's landscapes smile at one much in the same way that Mr. Carco used to flash his teeth. And Mr. John Collier gives his sitter a cheerful slap in the back, before he says, like a shampoo or a Turkish bath.",
+      "wall_seconds": 7.338141824991908,
+      "backend_seconds": 7.320679953,
+      "id": "noise-30s-20db",
+      "reference": "LINNELL'S PICTURES ARE A SORT OF UP GUARDS AND AT EM PAINTINGS AND MASON'S EXQUISITE IDYLLS ARE AS NATIONAL AS A JINGO POEM MISTER BIRKET FOSTER'S LANDSCAPES SMILE AT ONE MUCH IN THE SAME WAY THAT MISTER CARKER USED TO FLASH HIS TEETH AND MISTER JOHN COLLIER GIVES HIS SITTER A CHEERFUL SLAP ON THE BACK BEFORE HE SAYS LIKE A SHAMPOOER IN A TURKISH BATH NEXT MAN",
+      "audio_seconds": 29.4,
+      "inference_seconds": 7.338141824991908,
+      "word_errors": 12,
+      "reference_words": 68,
+      "wer": 0.17647058823529413
+    },
+    {
+      "ok": true,
+      "text": "Lynille's pictures are sort of up guards and atom paintings, and Mason's exquisite idols are as national as a jingo poem. Mr. Burkett Foster's landscapes smile at one much in the same way that Mr. Carker used to flash his teeth, and Mr. John Collier gives his sitter a cheerful slap on the back before he says like a shampoo or a Turkish bath. This man, he laments most bitterly the divorce that has been made between decorative art and what we usually call pictures, makes a customary appeal to the last judgment and reminds us that in the great days of art Michelangelo was the furnishing upholsterer. I have remained a prisoner only because I wish to be one. And with this he stepped forward and burst the stout chains as easily as if they had been threads.",
+      "wall_seconds": 23.12718614700134,
+      "backend_seconds": 23.084065386,
+      "id": "clean-60s",
+      "reference": "LINNELL'S PICTURES ARE A SORT OF UP GUARDS AND AT EM PAINTINGS AND MASON'S EXQUISITE IDYLLS ARE AS NATIONAL AS A JINGO POEM MISTER BIRKET FOSTER'S LANDSCAPES SMILE AT ONE MUCH IN THE SAME WAY THAT MISTER CARKER USED TO FLASH HIS TEETH AND MISTER JOHN COLLIER GIVES HIS SITTER A CHEERFUL SLAP ON THE BACK BEFORE HE SAYS LIKE A SHAMPOOER IN A TURKISH BATH NEXT MAN HE LAMENTS MOST BITTERLY THE DIVORCE THAT HAS BEEN MADE BETWEEN DECORATIVE ART AND WHAT WE USUALLY CALL PICTURES MAKES THE CUSTOMARY APPEAL TO THE LAST JUDGMENT AND REMINDS US THAT IN THE GREAT DAYS OF ART MICHAEL ANGELO WAS THE FURNISHING UPHOLSTERER I HAVE REMAINED A PRISONER ONLY BECAUSE I WISHED TO BE ONE AND WITH THIS HE STEPPED FORWARD AND BURST THE STOUT CHAINS AS EASILY AS IF THEY HAD BEEN THREADS",
+      "audio_seconds": 59.565,
+      "inference_seconds": 23.12718614700134,
+      "word_errors": 13,
+      "reference_words": 142,
+      "wer": 0.09154929577464789
+    },
+    {
+      "ok": true,
+      "text": "Lynille's pictures are sort of up guards and atom paintings, and Mason's exquisite idols are as national as a jingo poem. Mr. Burkett Foster's landscapes smile at one much in the same way that Mr. Carker used to flash his teeth, and Mr. John Collier gives his sitter a cheerful slap on the back before he says like a shampoo or a Turkish bath. This man, he laments most bitterly the divorce that has been made between decorative art and what we usually call pictures, makes a customary appeal to the last judgment and reminds us that in the great days of art Michelangelo was the furnishing upholsterer. In fact, he is quite severe on Mr. Ruskin for not recognizing that a picture should denote the frailty of man, and remarks with pleasing courtesy in Felicitous Grace that many phases of feeling. Having returned to the royal cavern, Calico first pounded the gong and then sat in the throne, wearing Regato's discarded ruby crown and holding in his hand the scepter which Regato had so often thrown at his head. The cut on his chest is still dripping blood. The ache of his overstrained eyes, even the soaring arena around him with thousands of spectators, retrovialities not worth thinking about. He tells us that at this festive season of the year, with Christmas and roast beef looming before us, similes drawn from eating and its results occur most readily to the mind. I have remained a prisoner only because I wish to be one. And with this, he stepped forward and burst the stout chains as easily as if they had been threads. He asked the handler who was needing his aching muscles.",
+      "wall_seconds": 41.0355981689936,
+      "backend_seconds": 40.978786473,
+      "id": "clean-120s",
+      "reference": "LINNELL'S PICTURES ARE A SORT OF UP GUARDS AND AT EM PAINTINGS AND MASON'S EXQUISITE IDYLLS ARE AS NATIONAL AS A JINGO POEM MISTER BIRKET FOSTER'S LANDSCAPES SMILE AT ONE MUCH IN THE SAME WAY THAT MISTER CARKER USED TO FLASH HIS TEETH AND MISTER JOHN COLLIER GIVES HIS SITTER A CHEERFUL SLAP ON THE BACK BEFORE HE SAYS LIKE A SHAMPOOER IN A TURKISH BATH NEXT MAN HE LAMENTS MOST BITTERLY THE DIVORCE THAT HAS BEEN MADE BETWEEN DECORATIVE ART AND WHAT WE USUALLY CALL PICTURES MAKES THE CUSTOMARY APPEAL TO THE LAST JUDGMENT AND REMINDS US THAT IN THE GREAT DAYS OF ART MICHAEL ANGELO WAS THE FURNISHING UPHOLSTERER IN FACT HE IS QUITE SEVERE ON MISTER RUSKIN FOR NOT RECOGNISING THAT A PICTURE SHOULD DENOTE THE FRAILTY OF MAN AND REMARKS WITH PLEASING COURTESY AND FELICITOUS GRACE THAT MANY PHASES OF FEELING HAVING RETURNED TO THE ROYAL CAVERN KALIKO FIRST POUNDED THE GONG AND THEN SAT IN THE THRONE WEARING RUGGEDO'S DISCARDED RUBY CROWN AND HOLDING IN HIS HAND THE SCEPTRE WHICH RUGGEDO HAD SO OFTEN THROWN AT HIS HEAD THE CUT ON HIS CHEST STILL DRIPPING BLOOD THE ACHE OF HIS OVERSTRAINED EYES EVEN THE SOARING ARENA AROUND HIM WITH THE THOUSANDS OF SPECTATORS WERE TRIVIALITIES NOT WORTH THINKING ABOUT HE TELLS US THAT AT THIS FESTIVE SEASON OF THE YEAR WITH CHRISTMAS AND ROAST BEEF LOOMING BEFORE US SIMILES DRAWN FROM EATING AND ITS RESULTS OCCUR MOST READILY TO THE MIND I HAVE REMAINED A PRISONER ONLY BECAUSE I WISHED TO BE ONE AND WITH THIS HE STEPPED FORWARD AND BURST THE STOUT CHAINS AS EASILY AS IF THEY HAD BEEN THREADS HE ASKED THE HANDLER WHO WAS KNEADING HIS ACHING MUSCLES",
+      "audio_seconds": 119.705,
+      "inference_seconds": 41.0355981689936,
+      "word_errors": 24,
+      "reference_words": 287,
+      "wer": 0.08362369337979095
+    }
+  ],
+  "load_seconds": 0.487025518,
+  "ready": true,
+  "sampled_peak_rss_mib": 506.43359375
+}
