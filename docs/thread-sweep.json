@@ -1,0 +1,50 @@
+[
+  {
+    "pool_threads": 0,
+    "seconds": [
+      4.414870009000879,
+      4.182910793999326
+    ],
+    "median_seconds": 4.298890401500103,
+    "text": "Having returned to the royal cavern, Calico first pounded the gong, and then sat in the throne, wearing Ruggado's discarded ruby crown, and holding in his hand the scepter which Ruggado had so often thrown at his head.",
+    "word_errors": 4,
+    "reference_words": 38,
+    "wer": 0.10526315789473684
+  },
+  {
+    "pool_threads": 1,
+    "seconds": [
+      5.842543997991015,
+      5.744555869998294
+    ],
+    "median_seconds": 5.793549933994655,
+    "text": "Having returned to the royal cavern, Calico first pounded the gong, and then sat in the throne, wearing Ruggado's discarded ruby crown, and holding in his hand the scepter which Ruggado had so often thrown at his head.",
+    "word_errors": 4,
+    "reference_words": 38,
+    "wer": 0.10526315789473684
+  },
+  {
+    "pool_threads": 2,
+    "seconds": [
+      3.3688678269973025,
+      3.2179843799967784
+    ],
+    "median_seconds": 3.2934261034970405,
+    "text": "Having returned to the royal cavern, Calico first pounded the gong, and then sat in the throne, wearing Ruggado's discarded ruby crown, and holding in his hand the scepter which Ruggado had so often thrown at his head.",
+    "word_errors": 4,
+    "reference_words": 38,
+    "wer": 0.10526315789473684
+  },
+  {
+    "pool_threads": 4,
+    "seconds": [
+      2.5131272580038058,
+      2.3743276099994546
+    ],
+    "median_seconds": 2.44372743400163,
+    "text": "Having returned to the royal cavern, Calico first pounded the gong, and then sat in the throne, wearing Ruggado's discarded ruby crown, and holding in his hand the scepter which Ruggado had so often thrown at his head.",
+    "word_errors": 4,
+    "reference_words": 38,
+    "wer": 0.10526315789473684
+  }
+]

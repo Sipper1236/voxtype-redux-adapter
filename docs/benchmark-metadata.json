@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-18",
+  "cpu": "Intel Core i5-8350U",
+  "physical_cores": 4,
+  "logical_cpus": 8,
+  "governor": "powersave",
+  "kernel": "7.2.9-arch1-1",
+  "stock_voxtype": "voxtype 1.1.0",
+  "stock_voxtype_target": "/usr/lib/voxtype/voxtype-avx2",
+  "voxtype_backend_source_commit": "dc499ad47444ba6ea80d8750aa3581c23120821c",
+  "parakeet_cpp_commit": "5c9b0fbbd8e611d88e47d7e1ebae9bca9b447e8f",
+  "cpp_build": "shared CPU AVX2 runtime; native ABI 10",
+  "production_tuning": {
+    "backend": "cpp",
+    "backend_slots": 2,
+    "compute_threads_per_slot": 4,
+    "sequential_requests": true,
+    "chunk_seconds": 30,
+    "max_recording_seconds": 120
+  },
+  "redux_gguf": {
+    "bytes": 318242048,
+    "sha256": "1ce2b6d84c620fabb8ba887f24ef68ce2d8d5c4476927482a98e8f52b1f5546d"
+  },
+  "native_library": {
+    "bytes": 1409176,
+    "sha256": "a6c4001adb21df2e2f47eddbd4bbc16f98674ddbd34290cd3710c78be06bde21"
+  }
+}
